@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:turbo-octo-invention}/server",
+            "name": "Debug App (server)",
+            "program": "${workspaceFolder:turbo-octo-invention}/server/.build/debug/App",
+            "preLaunchTask": "swift: Build Debug App (server)"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:turbo-octo-invention}/server",
+            "name": "Release App (server)",
+            "program": "${workspaceFolder:turbo-octo-invention}/server/.build/release/App",
+            "preLaunchTask": "swift: Build Release App (server)"
+        }
+    ]
+}
