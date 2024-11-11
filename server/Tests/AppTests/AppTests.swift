@@ -29,7 +29,10 @@ final class AppTests: XCTestCase {
         try await app.test(.router) { client in
             try await client.execute(
                 uri: "/users", method: .post,
-                body: ByteBuffer(string: #"{"firstName":"John","lastName":"Doe","email":"johndoe@example.com"}"#)
+                body: ByteBuffer(
+                    string: #"""
+                        {"firstName":"John","lastName":"Doe","email":"johndoe@example.com","deliveryAddress":"123 Main St","preferredTime":"Afternoon"}
+                        """#)
             ) { response in
                 XCTAssertEqual(response.status, .created)
                 let user = try JSONDecoder().decode(User.self, from: response.body)
@@ -56,7 +59,12 @@ final class AppTests: XCTestCase {
         let args = TestArguments()
         let app = try await buildApplication(args)
         try await app.test(.router) { client in
-            let responseForCreate = try await client.execute(uri: "/users", method: .post, body: ByteBuffer(string: #"{"firstName":"John","lastName":"Doe","email":"johndoe@example.com"}"#))
+            let responseForCreate = try await client.execute(
+                uri: "/users", method: .post,
+                body: ByteBuffer(
+                    string:
+                        #"{"firstName":"John","lastName":"Doe","email":"johndoe@example.com","deliveryAddress":"123 Main St","preferredTime":"Afternoon"}"#
+                ))
             XCTAssertEqual(responseForCreate.status, .created)
             let createdUser = try JSONDecoder().decode(User.self, from: responseForCreate.body)
             let responseForGet = try await client.execute(uri: "/users/\(createdUser.id)", method: .get)
@@ -70,7 +78,12 @@ final class AppTests: XCTestCase {
         let args = TestArguments(inMemoryTesting: false)
         let app = try await buildApplication(args)
         try await app.test(.router) { client in
-            let responseForCreate = try await client.execute(uri: "/users", method: .post, body: ByteBuffer(string: #"{"firstName":"John","lastName":"Doe","email":"johndoe@example.com"}"#))
+            let responseForCreate = try await client.execute(
+                uri: "/users", method: .post,
+                body: ByteBuffer(
+                    string:
+                        #"{"firstName":"John","lastName":"Doe","email":"johndoe@example.com","deliveryAddress":"123 Main St","preferredTime":"Afternoon"}"#
+                ))
             XCTAssertEqual(responseForCreate.status, .created)
             let createdUser = try JSONDecoder().decode(User.self, from: responseForCreate.body)
             let responseForGet = try await client.execute(uri: "/users/\(createdUser.id)", method: .get)
